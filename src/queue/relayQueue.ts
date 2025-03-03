@@ -2,6 +2,7 @@ import Queue from 'bull'
 import { config } from '../config'
 import logger from '../utils/logger'
 import { ReqError } from '../types/error'
+import { WebhookData } from '../types/webhookData'
 
 export const relayQueue = new Queue('relayQueue', {
   redis: {
@@ -10,7 +11,7 @@ export const relayQueue = new Queue('relayQueue', {
   },
 })
 
-export const addJobToRelayQueue = (data: any) => {
+export const addJobToRelayQueue = (data: WebhookData) => {
   relayQueue.add(data, {
     attempts: 5,
     backoff: {

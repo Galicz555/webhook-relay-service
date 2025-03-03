@@ -1,3 +1,15 @@
+# Brief Technical plan (outdated) (ref.: commit 9e62c69536573a9b38b22160cdfb1dce486bd7bd flowchart.md)
+
+1. Webhook Endpoint: Receive POST /webhook from the external service, parse/validate, then forward request data to the relay service.
+
+2. Relay Service: Forward the data (using axios) to the mock internal service. Return the mock service’s success or error back to the webhook endpoint.
+
+3. Mock Internal Service: Introduce a random delay and random HTTP error codes. Return a final response or error message.
+
+4. Response Handling: Relay service passes mock service results to the webhook endpoint. Webhook endpoint responds (success or error) to the external service.
+
+5. Error Logging & Monitoring: Log all steps for debugging.
+
 # Assumptions and Constraints
 
 1. I assume that the incoming webhook data is not overly complex and is in JSON format.

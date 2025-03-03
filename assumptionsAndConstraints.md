@@ -6,6 +6,7 @@
     - Skálázhatóság: Ha 1000 req/s fölé is mehetnénk, a horizontal scaling (k8s, load balancer, stb.) kerülhet szóba, de a feladat jelenlegi kontextusában elég egyszerűbb megoldás.
     - Webhhokok terhelésmintázata sok tényezőtől függhet de általánosságban a folyamatos, egyenletes terhelés a jellemző. Az API-hoz LOAD tesztet implementálok, és ha van idő akkor SPIKE(Webhook-oknál gyakran előfordul, hogy a küldő szolgáltatás retry mechanizmust használ: ha nem kap sikeres választ, újra és újra próbálkozik. Egy hirtelen hálózati gond vagy 500-as hiba után akár nagy számú újrapróbálkozás is érkezhet egyszerre.), SOAK és végül STRESS tesztelés 2x-3x fokozaton
     - Feltételezem továbbá hogy nem különösebb védelmet kialakítanom (DOS, injections)
+    - Feltételezem hogy a beérkező adat rendben van és nem kell a tartalmával foglalkoznom, de ha az időbe belefér implementálok beérkező adat ellenőrzést
 
 # Lehetséges Kihívások
 

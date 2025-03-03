@@ -1,7 +1,9 @@
 import { Router } from 'express'
 import { WebhookController } from '../controllers/webhook'
+import { RelayService } from '../services/relayService'
 
-const webhookController = new WebhookController()
+const relayService = new RelayService()
+const webhookController = new WebhookController(relayService)
 
 const router = Router()
 

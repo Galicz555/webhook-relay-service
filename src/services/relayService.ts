@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { ReqError } from '../types/error'
 import logger from '../utils/logger'
+import { config } from '../config'
+import { WebhookData } from '../types/webhookData'
 
 export class RelayService {
-  public async forwardToInternalService(data: any): Promise<void> {
-    const internalUrl = 'http://localhost:3000/internal/'
-    const maxRetries = 3
-    const timeout = 35_000
+  public async forwardToInternalService(data: WebhookData): Promise<void> {
+    const { internalUrl, maxRetries, timeout } = config
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {

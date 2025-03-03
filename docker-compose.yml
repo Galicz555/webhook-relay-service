@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  server:
+    build: .
+    ports:
+      - '3000:3000'
+    # If you have environment variables, define them here, or in a separate .env file:
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    volumes:
+      # Optionally, if you want changes to code reflected in real-time:
+      # (But be aware this can break Docker caching)
+      - .:/usr/src/app
+
+  redis:
+    image: 'redis:7-alpine'
+    container_name: my-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

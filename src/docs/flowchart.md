@@ -1,10 +1,13 @@
 ```mermaid
 flowchart TD
-    A[External Service] --> |webhook request POST /webhook| B[Webhook Endpoint]
-    B --> |RelayService.forward| C[Relay Service]
+    A[External Service] --> |POST /webhook| B[Webhook Endpoint]
+    B --> |Enqueue job| Q[Bull/Redis Queue]
+    B --> |Respond 202 Accepted| A
+
+    %% Worker Flow
+    Q --> |Worker picks job| C[Relay Service]
     C --> |axios.post| D[Mock Internal Service]
-    D --> |Random delay + Random error codes| E[Response]
+    D --> |Random delay + Errors| E[Response]
     E --> C
-    C --> |forward result| B
-    B --> |success or error HTTP response| A
+    C --> |Success or fail| Q
 ```

@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { RelayService } from '../services/relayService'
 import logger from '../utils/logger'
 import { ReqError } from '../types/error'
+import { addJobToRelayQueue } from '../queue/relayQueue'
 
 export class WebhookController {
   private relayService: RelayService
@@ -12,7 +13,7 @@ export class WebhookController {
 
   public webhook = async (req: Request, res: Response): Promise<Response> => {
     try {
-      await this.relayService.forwardToInternalService(req.body)
+      addJobToRelayQueue(req.body)
 
       logger.info('Webhook forwarded successfully')
       return res.status(200).json({

@@ -3,18 +3,34 @@ version: '3.8'
 services:
   server:
     build: .
+    container_name: my-webhook-server
     ports:
       - '3000:3000'
-    # If you have environment variables, define them here, or in a separate .env file:
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
       - redis
     volumes:
-      # Optionally, if you want changes to code reflected in real-time:
-      # (But be aware this can break Docker caching)
       - .:/usr/src/app
+    # The command to run your server (from Dockerfile or override here)
+    command: ['npm', 'run', 'dev'] # or "node dist/server.js"
+
+  worker:
+    build: .
+    container_name: my-webhook-worker
+    # No ports needed, since the worker doesn't expose HTTP
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SERVER_HOST=server
+      - SERVER_PORT=3000
+    depends_on:
+      - redis
+    volumes:
+      - .:/usr/src/app
+    # Use a different command for the worker process
+    command: ['npm', 'run', 'worker']
 
   redis:
     image: 'redis:7-alpine'

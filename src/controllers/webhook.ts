@@ -14,6 +14,7 @@ export class WebhookController {
     try {
       await this.relayService.forwardToInternalService(req.body)
 
+      logger.info('Webhook forwarded successfully')
       return res.status(200).json({
         message: 'Webhook received and forwarded successfully',
       })

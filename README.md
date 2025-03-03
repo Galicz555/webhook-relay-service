@@ -48,7 +48,7 @@ flowchart TD
     B --> |Respond 202| A
 
     Q --> |Worker picks job| C[Relay Service]
-    C --> |axios.post(...)| D[Mock Internal Service]
+    C --> |axios.post| D[Mock Internal Service]
     D --> |Random delay + Error codes| E[Response]
     E --> C
     C --> |complete/fail| Q
